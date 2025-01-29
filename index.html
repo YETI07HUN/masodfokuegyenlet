@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Másodfokú Egyenlet Megoldó</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 500px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        label {
+            margin-top: 10px;
+            display: block;
+        }
+
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 5px 0 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #result {
+            margin-top: 20px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Másodfokú Egyenlet Megoldó</h1>
+        
+        <form id="quadraticForm">
+            <label for="a">a:</label>
+            <input type="number" id="a">
+            
+            <label for="b">b:</label>
+            <input type="number" id="b">
+            
+            <label for="c">c:</label>
+            <input type="number" id="c">
+        </form>
+        
+        <div id="result">
+            <h3>Megoldás:</h3>
+            <p id="x1"></p>
+            <p id="x2"></p>
+        </div>
+    </div>
+
+    <script>
+        function calculate() {
+            let a = parseFloat(document.getElementById('a').value);
+            let b = parseFloat(document.getElementById('b').value);
+            let c = parseFloat(document.getElementById('c').value);
+
+            if (isNaN(a) || isNaN(b) || isNaN(c)) {
+                document.getElementById('result').style.display = 'none';
+                return;
+            }
+
+            let discriminant = b * b - 4 * a * c;
+
+            let x1, x2;
+            let resultElement = document.getElementById('result');
+            let x1Element = document.getElementById('x1');
+            let x2Element = document.getElementById('x2');
+
+            if (discriminant > 0) {
+                // Két különböző valós gyök
+                x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
+                x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
+                x1Element.textContent = `X1: ${x1}`;
+                x2Element.textContent = `X2: ${x2}`;
+            } else if (discriminant === 0) {
+                // Egyetlen valós gyök
+                x1 = -b / (2 * a);
+                x1Element.textContent = `X: ${x1}`;
+                x2Element.textContent = '';
+            } else {
+                // Komplex gyökök
+                let realPart = -b / (2 * a);
+                let imaginaryPart = Math.sqrt(-discriminant) / (2 * a);
+                x1 = `${realPart} + ${imaginaryPart}i`;
+                x2 = `${realPart} - ${imaginaryPart}i`;
+                x1Element.textContent = `X1: ${x1}`;
+                x2Element.textContent = `X2: ${x2}`;
+            }
+
+            resultElement.style.display = 'block';
+        }
+
+        const inputs = document.querySelectorAll('#a, #b, #c');
+        inputs.forEach(input => {
+            input.addEventListener('input', calculate);
+        });
+    </script>
+</body>
+</html>
